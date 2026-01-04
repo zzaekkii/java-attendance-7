@@ -1,8 +1,7 @@
-package attendance;
+package attendance.domain;
 
 import attendance.day.Day;
 import attendance.day.Time;
-import attendance.domain.Crew;
 
 public record AttendanceInfo(
         Crew crew,

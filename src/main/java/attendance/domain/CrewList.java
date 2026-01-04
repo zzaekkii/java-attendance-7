@@ -13,4 +13,8 @@ public class CrewList {
     public boolean isExist(Crew crew) {
         return crews.contains(crew);
     }
+
+    public HashSet<Crew> getCrews() {
+        return crews;
+    }
 }

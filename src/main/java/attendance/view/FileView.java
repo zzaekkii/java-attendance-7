@@ -1,8 +1,8 @@
 package attendance.view;
 
-import attendance.AttendanceInfo;
 import attendance.day.Day;
 import attendance.day.Time;
+import attendance.domain.AttendanceInfo;
 import attendance.domain.Crew;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,5 +1,7 @@
 package attendance;
 
+import attendance.domain.AttendanceInfo;
+import attendance.domain.AttendanceList;
 import attendance.domain.Crew;
 import attendance.domain.CrewList;
 import attendance.view.FileView;
@@ -31,6 +33,9 @@ public class AttendanceController {
             crews.add(info.crew());
         }
         CrewList crewList = new CrewList(crews);
+
+        // 출석부에 출석 기록 등록
+        AttendanceList attendanceList = AttendanceList.of(crewList, attendanceInfos);
 
 
     }
