@@ -8,6 +8,13 @@ public record Day(
         int day,
         Week week
 ) {
+    public static Day fromSeparateDate(int year, int month, int day) {
+        if (day < 1 || day > Month.fromInteger(month).getLastDay()) {
+            throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
+        }
+        return Day.fromString(year + "-" + month + "-" + day);
+    }
+
     public static Day fromDate(LocalDateTime date) {
         int year = date.getYear();
         int month = date.getMonthValue();

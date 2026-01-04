@@ -43,30 +43,50 @@ public class AttendanceController {
         AttendanceList attendanceList = AttendanceList.of(crewList, attendanceInfos);
 
         while (true) {
-            try {
-                outputView.printCommandList();
+            outputView.printCommandList();
 
-                Command command = getCommand();
+            Command command = getCommand();
 
-                if (command.equals(Command.CHECK_ATTENDANCE)) {
-                    outputView.printNicknamesRequest();
-                    Crew crew = inputView.readCrew();
+            if (command.equals(Command.CHECK_ATTENDANCE)) {
+                outputView.printNicknameRequest();
+                Crew crew = inputView.readCrew();
 
-                    outputView.printAttendanceTimeRequest();
-                    Time time = inputView.readTime();
-                    Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
+                outputView.printAttendanceTimeRequest();
+                Time time = inputView.readTime();
+                Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
 
-                    attendanceList.enroll(crew, attendance);
-                    outputView.printAttendanceSuccess(time, attendance.getAttendanceStatus());
-                }
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-                System.exit(0);
+                attendanceList.enroll(crew, attendance);
+                outputView.printAttendanceSuccess(time, attendance.getAttendanceStatus());
+            }
+
+            if (command.equals(Command.MODIFY_ATTENDANCE)) {
+                outputView.printNicknameToModifyRequest();
+                Crew crew = inputView.readCrew();
+
+                outputView.printDayToModifyRequest();
+                Day day = inputView.readDay();
+
+                outputView.printTimeToModifyRequest();
+                Time time = inputView.readTime();
+                Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
+
+                attendanceList.modify(crew, attendance);
+            }
+
+            if (command.equals(Command.QUIT)) {
+                break;
             }
         }
     }
 
     private Command getCommand() {
-        return inputView.readCommand();
+        try {
+            return inputView.readCommand();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            System.exit(0);
+        }
+        return null;
     }
+
 }

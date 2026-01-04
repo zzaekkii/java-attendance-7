@@ -23,12 +23,20 @@ public class OutputView {
                 + "Q. 종료");
     }
 
-    public void printNicknamesRequest() {
+    public void printNicknameRequest() {
         System.out.println("닉네임을 입력해 주세요.");
     }
 
     public void printAttendanceTimeRequest() {
         System.out.println("등교 시간을 입력해 주세요.");
+    }
+
+    public void printNicknameToModifyRequest() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
+    }
+
+    public void printDayToModifyRequest() {
+        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
     }
 
     public void printAttendanceSuccess(Time time, AttendanceStatus status) {
@@ -37,5 +45,9 @@ public class OutputView {
 
     private static String getToday() {
         return Day.fromDate(DateTimes.now()).getStringDate();
+    }
+
+    public void printTimeToModifyRequest() {
+        System.out.println("언제로 변경하겠습니까?");
     }
 }

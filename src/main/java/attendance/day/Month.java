@@ -1,14 +1,16 @@
 package attendance.day;
 
 public enum Month {
-    DEC(12, Week.SUN);
+    DEC(12, Week.SUN, 31);
 
     private final int month;
     private final Week startWeek;
+    private final int lastDay;
 
-    Month(int month, Week startWeek) {
+    Month(int month, Week startWeek, int lastDay) {
         this.month = month;
         this.startWeek = startWeek;
+        this.lastDay = lastDay;
     }
 
     public static Month fromInteger(int month) {
@@ -26,5 +28,9 @@ public enum Month {
 
     public Week getStartWeek() {
         return startWeek;
+    }
+
+    public int getLastDay() {
+        return lastDay;
     }
 }

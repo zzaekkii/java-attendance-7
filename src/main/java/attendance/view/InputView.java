@@ -1,9 +1,12 @@
 package attendance.view;
 
+import attendance.day.Day;
 import attendance.day.Time;
 import attendance.domain.Command;
 import attendance.domain.Crew;
 import camp.nextstep.edu.missionutils.Console;
+import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDateTime;
 
 public class InputView {
     public Command readCommand() {
@@ -26,6 +29,18 @@ public class InputView {
         String input = readAndValidate();
 
         return Time.fromString(input);
+    }
+
+    public Day readDay() {
+        String input = readAndValidate();
+
+        try {
+            int day = Integer.parseInt(input);
+            LocalDateTime now = DateTimes.now();
+            return Day.fromSeparateDate(now.getYear(), now.getDayOfMonth(), day);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
+        }
     }
 
     private static String readAndValidate() {

@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +30,21 @@ public class AttendanceList {
             logs.get(crew).add(attendance);
         }
 
+        // 공휴일이 아닌데 기록이 없는 경우 결석 처리
+        LocalDateTime now = DateTimes.now();
+        for (Crew crew : crews.getCrews()) {
+            List<Attendance> attendances = logs.get(crew);
+            for (int day = 1; day < now.getDayOfMonth(); day++) {
+//                attendances.contains();
+                // 아 결석처리
+            }
+        }
+
         return new AttendanceList(crews, logs);
     }
 
     public void enroll(Crew crew, Attendance tryEnroll) {
-        if (!crewList.isExist(crew)) {
-            throw new IllegalArgumentException("등록되지 않은 닉네임입니다.");
-        }
+        validateExist(crew);
 
         List<Attendance> attendances = attendanceList.get(crew);
         for (Attendance attendance : attendances) {
@@ -45,4 +55,18 @@ public class AttendanceList {
 
         attendances.add(tryEnroll);
     }
+
+    public void modify(Crew crew, Attendance tryModify) {
+        validateExist(crew);
+
+        List<Attendance> attendances = attendanceList.get(crew);
+
+    }
+
+    private void validateExist(Crew crew) {
+        if (!crewList.isExist(crew)) {
+            throw new IllegalArgumentException("등록되지 않은 닉네임입니다.");
+        }
+    }
+
 }
