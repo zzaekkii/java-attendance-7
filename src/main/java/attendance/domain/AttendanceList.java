@@ -22,7 +22,7 @@ public class AttendanceList {
 
         for (AttendanceInfo info : infos) {
             Crew crew = info.crew();
-            Attendance attendance = new Attendance(info.day(), info.time());
+            Attendance attendance = Attendance.of(info.day(), info.time());
             logs.get(crew).add(attendance);
         }
 

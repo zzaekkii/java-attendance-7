@@ -2,6 +2,7 @@ package attendance;
 
 import attendance.domain.AttendanceInfo;
 import attendance.domain.AttendanceList;
+import attendance.domain.Command;
 import attendance.domain.Crew;
 import attendance.domain.CrewList;
 import attendance.view.FileView;
@@ -37,7 +38,16 @@ public class AttendanceController {
         // 출석부에 출석 기록 등록
         AttendanceList attendanceList = AttendanceList.of(crewList, attendanceInfos);
 
+        while (true) {
+            outputView.printCommandList();
 
+            try {
+                Command command = inputView.readCommand();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+                System.exit(0);
+            }
+        }
     }
 
 }

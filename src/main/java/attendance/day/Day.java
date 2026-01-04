@@ -16,4 +16,21 @@ public record Day(
 
         return new Day(year, month, day, week);
     }
+
+    public String getStringDate() {
+        return month.getMonth() + "월 " + day + "일 " + week.getWeek();
+    }
+
+    public boolean isWeekend() {
+        return week.isWeekend();
+    }
+
+    public boolean isHoliday() {
+        for (Holiday holiday : Holiday.values()) {
+            if (holiday.getDay() == day) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -13,6 +13,25 @@ public record Time(
         return new Time(hours * 60 + minutes);
     }
 
+    public boolean isEarlier(Time time) {
+        return this.times < time.times;
+    }
+
+    public boolean isLater(Time time) {
+        return this.times > time.times;
+    }
+
+    public Time addMinutes(int minutes) {
+        return new Time(times + minutes);
+    }
+
+    public String getTimesAtString() {
+        int hours = times / 60;
+        int minutes = times % 60;
+
+        return hours + ":" + minutes;
+    }
+
     private static void validateTimeFormat(int hours, int minutes) {
         if (hours < 0 || hours > 23) {
             throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
@@ -21,12 +40,5 @@ public record Time(
         if (minutes < 0 || minutes > 59) {
             throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
         }
-    }
-
-    public String getTimesAtString() {
-        int hours = times / 60;
-        int minutes = times % 60;
-
-        return hours + ":" + minutes;
     }
 }

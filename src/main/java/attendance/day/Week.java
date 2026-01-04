@@ -34,4 +34,8 @@ public enum Week {
     public boolean isWeekend() {
         return weekend;
     }
+
+    public String getWeek() {
+        return week;
+    }
 }
