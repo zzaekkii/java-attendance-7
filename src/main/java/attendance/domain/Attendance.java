@@ -79,4 +79,8 @@ public class Attendance {
     public Time getTime() {
         return time;
     }
+
+    public AttendanceStatus getAttendanceStatus() {
+        return attendanceStatus;
+    }
 }

@@ -1,11 +1,20 @@
 package attendance.day;
 
+import java.time.LocalDateTime;
+
 public record Day(
         int year,
         Month month,
         int day,
         Week week
 ) {
+    public static Day fromDate(LocalDateTime date) {
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
+        return Day.fromString(year + "-" + month + "-" + day);
+    }
+
     public static Day fromString(String date) {
         String[] values = date.split("-");
 

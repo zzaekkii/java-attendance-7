@@ -1,8 +1,9 @@
 package attendance.view;
 
 import attendance.day.Day;
+import attendance.day.Time;
+import attendance.domain.AttendanceStatus;
 import camp.nextstep.edu.missionutils.DateTimes;
-import java.time.LocalDateTime;
 
 public class OutputView {
     private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
@@ -22,12 +23,19 @@ public class OutputView {
                 + "Q. 종료");
     }
 
+    public void printNicknamesRequest() {
+        System.out.println("닉네임을 입력해 주세요.");
+    }
+
+    public void printAttendanceTimeRequest() {
+        System.out.println("등교 시간을 입력해 주세요.");
+    }
+
+    public void printAttendanceSuccess(Time time, AttendanceStatus status) {
+        System.out.println(getToday() + " " + time.getTimesAtString() + " " + status.getValue());
+    }
+
     private static String getToday() {
-        LocalDateTime now = DateTimes.now(); // 이런게.. 있었다니..
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        int day = now.getDayOfMonth();
-        String today = Day.fromString(year + "-" + month + "-" + day).getStringDate();
-        return today;
+        return Day.fromDate(DateTimes.now()).getStringDate();
     }
 }

@@ -5,6 +5,11 @@ public record Time(
 ) {
     public static Time fromString(String time) {
         String[] values = time.split(":");
+
+        if (values.length != 2) {
+            throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
+        }
+
         int hours = Integer.parseInt(values[0]);
         int minutes = Integer.parseInt(values[1]);
 
