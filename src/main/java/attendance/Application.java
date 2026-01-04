@@ -1,7 +1,18 @@
 package attendance;
 
+import attendance.view.InputView;
+import attendance.view.OutputView;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        initialize();
+        new AttendanceController(
+                new InputView(),
+                new OutputView()
+        ).run();
+    }
+
+    private static void initialize() {
+        
     }
 }
