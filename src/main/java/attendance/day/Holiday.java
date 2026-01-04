@@ -9,6 +9,15 @@ public enum Holiday {
         this.day = day;
     }
 
+    public boolean isHoliday(int day) {
+        for (Holiday holiday : Holiday.values()) {
+            if (holiday.getDay() == day) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getDay() {
         return day;
     }

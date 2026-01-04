@@ -1,8 +1,12 @@
 package attendance;
 
+import attendance.day.Day;
+import attendance.day.Time;
+import attendance.domain.Crew;
+
 public record AttendanceInfo(
-        String nickname,
-        String date,
-        String time
+        Crew crew,
+        Day day,
+        Time time
 ) {
 }
