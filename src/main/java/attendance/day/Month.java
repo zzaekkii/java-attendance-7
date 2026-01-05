@@ -1,6 +1,7 @@
 package attendance.day;
 
 public enum Month {
+    JAN(1, Week.WED, 31),
     DEC(12, Week.SUN, 31);
 
     private final int month;

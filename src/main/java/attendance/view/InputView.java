@@ -12,7 +12,7 @@ public class InputView {
     public Command readCommand() {
         String input = readAndValidate();
 
-        if (!input.matches("1-4|Q")) {
+        if (!input.matches("[1-4]|Q")) {
             throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
         }
 

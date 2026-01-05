@@ -34,7 +34,7 @@ public record Time(
         int hours = times / 60;
         int minutes = times % 60;
 
-        return hours + ":" + minutes;
+        return String.format("%02d:%02d", hours, minutes);
     }
 
     private static void validateTimeFormat(int hours, int minutes) {

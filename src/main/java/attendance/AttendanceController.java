@@ -42,51 +42,59 @@ public class AttendanceController {
         // 출석부에 출석 기록 등록
         AttendanceList attendanceList = AttendanceList.of(crewList, attendanceInfos);
 
-        while (true) {
-            outputView.printCommandList();
-
-            Command command = getCommand();
-
-            if (command.equals(Command.CHECK_ATTENDANCE)) {
-                outputView.printNicknameRequest();
-                Crew crew = inputView.readCrew();
-
-                outputView.printAttendanceTimeRequest();
-                Time time = inputView.readTime();
-                Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
-
-                attendanceList.enroll(crew, attendance);
-                outputView.printAttendanceSuccess(time, attendance.getAttendanceStatus());
-            }
-
-            if (command.equals(Command.MODIFY_ATTENDANCE)) {
-                outputView.printNicknameToModifyRequest();
-                Crew crew = inputView.readCrew();
-
-                outputView.printDayToModifyRequest();
-                Day day = inputView.readDay();
-
-                outputView.printTimeToModifyRequest();
-                Time time = inputView.readTime();
-                Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
-
-                attendanceList.modify(crew, attendance);
-            }
-
-            if (command.equals(Command.QUIT)) {
-                break;
-            }
-        }
-    }
-
-    private Command getCommand() {
         try {
-            return inputView.readCommand();
+            while (true) {
+                outputView.printCommandList();
+
+                Command command = inputView.readCommand();
+
+                if (command.equals(Command.CHECK_ATTENDANCE)) {
+                    Day today = Day.fromDate(DateTimes.now());
+
+                    if (Attendance.isNotSchoolDay(today)) {
+                        throw throwErrorMessage(today.getStringDate() + "은 등교일이 아닙니다.");
+                    }
+
+                    outputView.printNicknameRequest();
+
+                    Crew crew = inputView.readCrew();
+                    if (!crewList.isExist(crew)) {
+                        throw throwErrorMessage("등록되지 않은 닉네임입니다.");
+                    }
+
+                    outputView.printAttendanceTimeRequest();
+                    Time time = inputView.readTime();
+                    Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
+
+                    attendanceList.enroll(crew, attendance);
+                    outputView.printAttendanceSuccess(time, attendance.getAttendanceStatus());
+                }
+
+                if (command.equals(Command.MODIFY_ATTENDANCE)) {
+                    outputView.printNicknameToModifyRequest();
+                    Crew crew = inputView.readCrew();
+
+                    outputView.printDayToModifyRequest();
+                    Day day = inputView.readDay();
+
+                    outputView.printTimeToModifyRequest();
+                    Time time = inputView.readTime();
+                    Attendance attendance = Attendance.of(Day.fromDate(DateTimes.now()), time);
+
+                    attendanceList.modify(crew, attendance);
+                }
+
+                if (command.equals(Command.QUIT)) {
+                    break;
+                }
+            }
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
-            System.exit(0);
+            throw throwErrorMessage(e.getMessage());
         }
-        return null;
     }
 
+    private static IllegalArgumentException throwErrorMessage(String message) {
+        return new IllegalArgumentException("[ERROR] " + message);
+    }
 }

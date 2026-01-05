@@ -40,7 +40,7 @@ public class Attendance {
         return new Attendance(day, time, status);
     }
 
-    private static boolean isNotSchoolDay(Day day) {
+    public static boolean isNotSchoolDay(Day day) {
         return day.isHoliday() || day.isWeekend();
     }
 

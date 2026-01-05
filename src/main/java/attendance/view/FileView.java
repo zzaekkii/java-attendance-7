@@ -33,7 +33,7 @@ public class FileView {
 
             return attendanceInfos;
         } catch (IOException e) {
-            throw new RuntimeException("파일을 읽는데 실패했습니다.");
+            throw new IllegalArgumentException("파일을 읽는데 실패했습니다.");
         }
     }
 

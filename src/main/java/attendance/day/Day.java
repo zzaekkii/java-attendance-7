@@ -1,6 +1,7 @@
 package attendance.day;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public record Day(
         int year,
@@ -8,6 +9,8 @@ public record Day(
         int day,
         Week week
 ) {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public static Day fromSeparateDate(int year, int month, int day) {
         if (day < 1 || day > Month.fromInteger(month).getLastDay()) {
             throw new IllegalArgumentException("잘못된 형식을 입력하였습니다.");
@@ -16,10 +19,7 @@ public record Day(
     }
 
     public static Day fromDate(LocalDateTime date) {
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        int day = date.getDayOfMonth();
-        return Day.fromString(year + "-" + month + "-" + day);
+        return Day.fromString(date.format(FORMATTER));
     }
 
     public static Day fromString(String date) {
@@ -34,7 +34,11 @@ public record Day(
     }
 
     public String getStringDate() {
-        return month.getMonth() + "월 " + day + "일 " + week.getWeek();
+        return String.format("%02d월 %02d일 %s",
+                month.getMonth(),
+                day,
+                week.getWeek()
+        );
     }
 
     public boolean isWeekend() {
