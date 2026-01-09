@@ -35,6 +35,10 @@ public class AttendanceController {
             if (Command.CHECK_ATTENDANCE.equals(command)) {
                 checkAttendance(wooteco);
             }
+
+            if (Command.QUIT.equals(command)) {
+                break;
+            }
         }
     }
 
@@ -49,8 +53,8 @@ public class AttendanceController {
             Attendance attendance = crew.addAttendance(today, attendanceTime);
             outputView.printCheckAttendanceSuccess(Day.getDayAsString(today), attendance.getAttendanceAsString());
         } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(ErrorMessage.ETC.getMessage());
-            throw new IllegalArgumentException(ErrorMessage.ETC.getMessage());
+            outputView.printErrorMessage(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -70,8 +74,8 @@ public class AttendanceController {
 
     private static void validateAttendanceDay(LocalDate today) {
         if (Day.isWeekendOrHoliday(today)) {
-            throw new IllegalArgumentException(
-                    Day.getDayAsString(today) + ErrorMessage.WEEKEND_OR_HOLIDAY.getMessage());
+//            throw new IllegalArgumentException(Day.getDayAsString(today) + "은 등교일이 아닙니다.");
+            throw new IllegalArgumentException("[ERROR] " + Day.getDayAsString(today) + "은 등교일이 아닙니다.");
         }
     }
 

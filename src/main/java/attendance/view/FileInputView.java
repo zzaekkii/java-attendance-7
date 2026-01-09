@@ -42,6 +42,6 @@ public class FileInputView {
             }
         }
 
-        return new CrewAttendanceInfo(new Crews(new ArrayList<>(crews)), attendanceInfos, lastDate);
+        return new CrewAttendanceInfo(new Crews(new ArrayList<>(crews)), attendanceInfos, lastDate.minusDays(1));
     }
 }
