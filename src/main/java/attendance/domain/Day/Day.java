@@ -7,12 +7,16 @@ import java.util.Locale;
 
 public class Day {
 
-    public static boolean isWeekend(LocalDate date) {
+    public static boolean isWeekendOrHoliday(LocalDate date) {
+        return isWeekend(date) || Holiday.isHoliday(date);
+    }
+
+    private static boolean isWeekend(LocalDate date) {
         int dayOfWeek = date.getDayOfWeek().getValue();
         return dayOfWeek == DayOfWeek.SATURDAY.getValue() || dayOfWeek == DayOfWeek.SUNDAY.getValue();
     }
 
-    public String getDayAsString(LocalDate date) {
+    public static String getDayAsString(LocalDate date) {
         String month = String.format("%02d월", date.getMonthValue());
         String day = String.format("%02d일", date.getDayOfMonth());
         String weekOfDay = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN);

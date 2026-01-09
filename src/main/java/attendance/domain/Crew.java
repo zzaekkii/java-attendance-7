@@ -2,6 +2,7 @@ package attendance.domain;
 
 import attendance.exception.ErrorMessage;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,11 +17,13 @@ public class Crew {
         attendances = new HashMap<>();
     }
 
-    public void addAttendance(LocalDate date, Attendance attendance) {
+    public Attendance addAttendance(LocalDate date, LocalTime time) {
         if (attendances.containsKey(date)) {
             throw new IllegalArgumentException(ErrorMessage.DUPLICATE_ATTENDANCE.getMessage());
         }
+        Attendance attendance = Attendance.of(date, time);
         attendances.put(date, attendance);
+        return attendance;
     }
 
     public boolean isNotExistAttendance(LocalDate date) {

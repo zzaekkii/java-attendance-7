@@ -11,4 +11,12 @@ public class Academy {
     public Academy(Crews crews) {
         this.crews = crews;
     }
+
+    public boolean isNotOperatingTime(LocalTime time) {
+        return time.isBefore(openTime) || time.isAfter(closeTime);
+    }
+
+    public Crew getCrewByName(String name) {
+        return crews.getCrewByName(name);
+    }
 }

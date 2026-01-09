@@ -22,7 +22,7 @@ public class Attendance {
         if (time == null) {
             return new Attendance(Optional.empty(), AttendanceStatus.ABSENCE);
         }
-        return new Attendance(Optional.of(time), getStatus(date, time));
+        return new Attendance(Optional.of(time), judgeStatus(date, time));
     }
 
     public String getAttendanceAsString() {
@@ -32,14 +32,14 @@ public class Attendance {
         return time.get().format(DateTimeFormatter.ofPattern("HH:mm")) + " " + status.getStatusAsString();
     }
 
-    private static AttendanceStatus getStatus(LocalDate date, LocalTime time) {
+    private static AttendanceStatus judgeStatus(LocalDate date, LocalTime time) {
         if (date.getDayOfWeek().getValue() == DayOfWeek.MONDAY.getValue()) {
-            return getStatus(EducatingDay.MONDAY, time);
+            return judgeStatus(EducatingDay.MONDAY, time);
         }
-        return getStatus(EducatingDay.OTHER_DAY, time);
+        return judgeStatus(EducatingDay.OTHER_DAY, time);
     }
 
-    private static AttendanceStatus getStatus(EducatingDay day, LocalTime time) {
+    private static AttendanceStatus judgeStatus(EducatingDay day, LocalTime time) {
         if (isAbsence(day, time)) {
             return AttendanceStatus.ABSENCE;
         }
