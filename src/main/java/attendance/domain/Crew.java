@@ -35,6 +35,33 @@ public class Crew {
         return !attendances.containsKey(date);
     }
 
+    public int getAttendanceCount(LocalDate until) {
+        return getStatusCount(AttendanceStatus.ATTENDANCE, until);
+    }
+
+    public int getLatenessCount(LocalDate until) {
+        return getStatusCount(AttendanceStatus.LATENESS, until);
+    }
+
+    public int getAbsenceCount(LocalDate until) {
+        return getStatusCount(AttendanceStatus.ABSENCE, until);
+    }
+
+    public PunishmentStatus getPunishmentStatus(LocalDate yesterday) {
+        return PunishmentStatus.of(getLatenessCount(yesterday) + getAbsenceCount(yesterday) * 3);
+    }
+
+    private int getStatusCount(AttendanceStatus status, LocalDate until) {
+        int count = 0;
+        for (Map.Entry<LocalDate, Attendance> entry : attendances.entrySet()) {
+            if ((entry.getKey().isBefore(until) || entry.getKey().isEqual(until))
+                    && status.equals(attendances.get(entry.getKey()).getStatus())) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     public Attendance getAttendanceOf(LocalDate date) {
         return attendances.get(date);
     }

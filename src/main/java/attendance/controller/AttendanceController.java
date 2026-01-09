@@ -2,6 +2,7 @@ package attendance.controller;
 
 import attendance.domain.Academy;
 import attendance.domain.AttendanceInfo;
+import attendance.domain.AttendanceLogs;
 import attendance.domain.Command;
 import attendance.domain.Crew;
 import attendance.domain.CrewAttendanceInfo;
@@ -37,6 +38,10 @@ public class AttendanceController {
 
             if (Command.MODIFY_ATTENDANCE.equals(command)) {
                 modifyAttendance(wooteco);
+            }
+
+            if (Command.FIND_CREW_ATTENDANCES.equals(command)) {
+                showCrewAttendances(wooteco);
             }
 
             if (Command.QUIT.equals(command)) {
@@ -76,6 +81,12 @@ public class AttendanceController {
             outputView.printErrorMessage(e.getMessage());
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private void showCrewAttendances(Academy wooteco) {
+        Crew crew = getCrewForCheck(wooteco);
+        AttendanceLogs attendanceLogs = wooteco.showPreviousAttendances(crew);
+        outputView.printAttendanceLogs(crew.getName(), attendanceLogs);
     }
 
     private LocalTime getModifyTime() {

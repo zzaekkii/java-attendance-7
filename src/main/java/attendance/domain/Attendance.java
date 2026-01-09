@@ -32,6 +32,10 @@ public class Attendance {
         return time.get().format(DateTimeFormatter.ofPattern("HH:mm")) + " " + status.getStatusAsString();
     }
 
+    public AttendanceStatus getStatus() {
+        return status;
+    }
+
     private static AttendanceStatus judgeStatus(LocalDate date, LocalTime time) {
         if (date.getDayOfWeek().getValue() == DayOfWeek.MONDAY.getValue()) {
             return judgeStatus(EducatingDay.MONDAY, time);

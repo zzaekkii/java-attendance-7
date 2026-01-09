@@ -1,5 +1,8 @@
 package attendance.view;
 
+import attendance.domain.AttendanceLogs;
+import attendance.domain.PunishmentStatus;
+
 public class OutputView {
 
     public void printErrorMessage(String message) {
@@ -41,5 +44,23 @@ public class OutputView {
 
     public void printModifyAttendanceSuccess(String message) {
         System.out.println(message + "\n");
+    }
+
+    public void printAttendanceLogs(String name, AttendanceLogs attendanceLogs) {
+        System.out.println("\n이번 달 빙티의 출석 기록입니다.\n");
+        for (String attendance : attendanceLogs.attendances()) {
+            System.out.println(attendance);
+        }
+        System.out.println();
+
+        System.out.println("출석: " + attendanceLogs.attendanceCount());
+        System.out.println("지각: " + attendanceLogs.latenessCount());
+        System.out.println("결석: " + attendanceLogs.absenceCount());
+        System.out.println();
+
+        if (attendanceLogs.punishmentStatus().equals(PunishmentStatus.NONE)) {
+            return;
+        }
+        System.out.println(attendanceLogs.punishmentStatus().getStatusAsString() + "\n");
     }
 }
