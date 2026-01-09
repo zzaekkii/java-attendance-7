@@ -26,8 +26,17 @@ public class Crew {
         return attendance;
     }
 
+    public void modifyAttendance(LocalDate date, LocalTime time) {
+        Attendance attendance = Attendance.of(date, time);
+        attendances.put(date, attendance);
+    }
+
     public boolean isNotExistAttendance(LocalDate date) {
         return !attendances.containsKey(date);
+    }
+
+    public Attendance getAttendanceOf(LocalDate date) {
+        return attendances.get(date);
     }
 
     public String getName() {

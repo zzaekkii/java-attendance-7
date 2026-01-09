@@ -1,7 +1,6 @@
 package attendance.controller;
 
 import attendance.domain.Academy;
-import attendance.domain.Attendance;
 import attendance.domain.AttendanceInfo;
 import attendance.domain.Command;
 import attendance.domain.Crew;
@@ -36,6 +35,10 @@ public class AttendanceController {
                 checkAttendance(wooteco);
             }
 
+            if (Command.MODIFY_ATTENDANCE.equals(command)) {
+                modifyAttendance(wooteco);
+            }
+
             if (Command.QUIT.equals(command)) {
                 break;
             }
@@ -47,15 +50,48 @@ public class AttendanceController {
             LocalDate today = DateTimes.now().toLocalDate();
             validateAttendanceDay(today);
 
-            Crew crew = getCrew(wooteco);
+            Crew crew = getCrewForCheck(wooteco);
             LocalTime attendanceTime = getAttendanceTime(wooteco);
 
-            Attendance attendance = crew.addAttendance(today, attendanceTime);
-            outputView.printCheckAttendanceSuccess(Day.getDayAsString(today), attendance.getAttendanceAsString());
+            crew.addAttendance(today, attendanceTime);
+            outputView.printCheckAttendanceSuccess(Day.getDayAsString(today),
+                    crew.getAttendanceOf(today).getAttendanceAsString());
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private void modifyAttendance(Academy wooteco) {
+        try {
+            Crew crew = getCrewForModify(wooteco);
+            LocalDate modifyDate = getModifyDate();
+            LocalDate today = DateTimes.now().toLocalDate();
+            if (!modifyDate.isBefore(today)) {
+                throw new IllegalArgumentException(ErrorMessage.MODIFY_NOW_ALLOWED.getMessage());
+            }
+            LocalTime modifyTime = getModifyTime();
+            outputView.printModifyAttendanceSuccess(wooteco.modifyAttendance(crew, modifyDate, modifyTime));
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    private LocalTime getModifyTime() {
+        outputView.printModifyTimeRequest();
+        return inputView.readAttendanceTime();
+    }
+
+    private LocalDate getModifyDate() {
+        outputView.printDateForModifyRequest();
+        LocalDate today = DateTimes.now().toLocalDate();
+        return LocalDate.of(2024, 12, inputView.readDayForModify(today));
+    }
+
+    private Crew getCrewForModify(Academy wooteco) {
+        outputView.printNicknameRequestForModify();
+        return wooteco.getCrewByName(inputView.readNickname());
     }
 
     private LocalTime getAttendanceTime(Academy wooteco) {
@@ -67,8 +103,8 @@ public class AttendanceController {
         return attendanceTime;
     }
 
-    private Crew getCrew(Academy wooteco) {
-        outputView.printNicknameRequest();
+    private Crew getCrewForCheck(Academy wooteco) {
+        outputView.printNicknameRequestForCheck();
         return wooteco.getCrewByName(inputView.readNickname());
     }
 

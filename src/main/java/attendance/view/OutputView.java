@@ -15,7 +15,7 @@ public class OutputView {
         System.out.println("Q. 종료");
     }
 
-    public void printNicknameRequest() {
+    public void printNicknameRequestForCheck() {
         System.out.println("닉네임을 입력해 주세요.");
     }
 
@@ -24,6 +24,22 @@ public class OutputView {
     }
 
     public void printCheckAttendanceSuccess(String date, String attendanceInfo) {
-        System.out.println(date + " " + attendanceInfo);
+        System.out.println(date + " " + attendanceInfo + "\n");
+    }
+
+    public void printNicknameRequestForModify() {
+        System.out.println("\n출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
+    }
+
+    public void printDateForModifyRequest() {
+        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
+    }
+
+    public void printModifyTimeRequest() {
+        System.out.println("언제로 변경하겠습니까?");
+    }
+
+    public void printModifyAttendanceSuccess(String message) {
+        System.out.println(message + "\n");
     }
 }

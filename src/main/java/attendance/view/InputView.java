@@ -3,6 +3,7 @@ package attendance.view;
 import attendance.domain.Command;
 import attendance.exception.ErrorMessage;
 import camp.nextstep.edu.missionutils.Console;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,6 +25,19 @@ public class InputView {
         try {
             return LocalTime.parse(input, formatter);
         } catch (Exception e) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_FORMAT.getMessage());
+        }
+    }
+
+    public int readDayForModify(LocalDate today) {
+        String input = readAndValidate();
+        try {
+            int day = Integer.parseInt(input);
+            if (day <= 0 || day > today.getMonth().maxLength()) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_FORMAT.getMessage());
+            }
+            return day;
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_FORMAT.getMessage());
         }
     }

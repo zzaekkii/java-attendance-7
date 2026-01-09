@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import attendance.domain.Day.Day;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Academy {
@@ -10,6 +12,14 @@ public class Academy {
 
     public Academy(Crews crews) {
         this.crews = crews;
+    }
+
+    public String modifyAttendance(Crew crew, LocalDate modifyDate, LocalTime modifyTime) {
+        String previousLog = crew.getAttendanceOf(modifyDate).getAttendanceAsString();
+        crew.modifyAttendance(modifyDate, modifyTime);
+        String modifiedLog = crew.getAttendanceOf(modifyDate).getAttendanceAsString();
+        return Day.getDayAsString(modifyDate) + " " + previousLog
+                + " -> " + modifiedLog + " 수정 완료!";
     }
 
     public boolean isNotOperatingTime(LocalTime time) {
