@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.domain.Day.Day;
 import attendance.exception.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -54,6 +55,10 @@ public class Crew {
     private int getStatusCount(AttendanceStatus status, LocalDate until) {
         int count = 0;
         for (Map.Entry<LocalDate, Attendance> entry : attendances.entrySet()) {
+            if (Day.isWeekendOrHoliday(entry.getKey())) {
+                continue;
+            }
+
             if ((entry.getKey().isBefore(until) || entry.getKey().isEqual(until))
                     && status.equals(attendances.get(entry.getKey()).getStatus())) {
                 count += 1;

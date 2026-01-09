@@ -53,9 +53,9 @@ public class OutputView {
         }
         System.out.println();
 
-        System.out.println("출석: " + attendanceLogs.attendanceCount());
-        System.out.println("지각: " + attendanceLogs.latenessCount());
-        System.out.println("결석: " + attendanceLogs.absenceCount());
+        System.out.println("출석: " + attendanceLogs.attendanceCount() + "회");
+        System.out.println("지각: " + attendanceLogs.latenessCount() + "회");
+        System.out.println("결석: " + attendanceLogs.absenceCount() + "회");
         System.out.println();
 
         if (attendanceLogs.punishmentStatus().equals(PunishmentStatus.NONE)) {
