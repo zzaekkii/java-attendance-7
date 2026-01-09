@@ -2,6 +2,7 @@ package attendance.domain;
 
 import attendance.domain.Day.Day;
 import attendance.exception.ErrorMessage;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -18,13 +19,12 @@ public class Crew {
         attendances = new HashMap<>();
     }
 
-    public Attendance addAttendance(LocalDate date, LocalTime time) {
+    public void addAttendance(LocalDate date, LocalTime time) {
         if (attendances.containsKey(date)) {
             throw new IllegalArgumentException(ErrorMessage.DUPLICATE_ATTENDANCE.getMessage());
         }
         Attendance attendance = Attendance.of(date, time);
         attendances.put(date, attendance);
-        return attendance;
     }
 
     public void modifyAttendance(LocalDate date, LocalTime time) {
@@ -36,20 +36,27 @@ public class Crew {
         return !attendances.containsKey(date);
     }
 
-    public int getAttendanceCount(LocalDate until) {
-        return getStatusCount(AttendanceStatus.ATTENDANCE, until);
+    public int getAttendanceCount() {
+        LocalDate yesterday = DateTimes.now().toLocalDate().minusDays(1);
+        return getStatusCount(AttendanceStatus.ATTENDANCE, yesterday);
     }
 
-    public int getLatenessCount(LocalDate until) {
-        return getStatusCount(AttendanceStatus.LATENESS, until);
+    public int getLatenessCount() {
+        LocalDate yesterday = DateTimes.now().toLocalDate().minusDays(1);
+        return getStatusCount(AttendanceStatus.LATENESS, yesterday);
     }
 
-    public int getAbsenceCount(LocalDate until) {
-        return getStatusCount(AttendanceStatus.ABSENCE, until);
+    public int getAbsenceCount() {
+        LocalDate yesterday = DateTimes.now().toLocalDate().minusDays(1);
+        return getStatusCount(AttendanceStatus.ABSENCE, yesterday);
     }
 
-    public PunishmentStatus getPunishmentStatus(LocalDate yesterday) {
-        return PunishmentStatus.of(getLatenessCount(yesterday) + getAbsenceCount(yesterday) * 3);
+    public int getTotalLatenessCount() {
+        return getLatenessCount() + getAbsenceCount();
+    }
+
+    public PunishmentStatus getPunishmentStatus() {
+        return PunishmentStatus.of(getLatenessCount() + getAbsenceCount() * 3);
     }
 
     private int getStatusCount(AttendanceStatus status, LocalDate until) {

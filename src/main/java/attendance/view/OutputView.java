@@ -1,7 +1,9 @@
 package attendance.view;
 
 import attendance.domain.AttendanceLogs;
+import attendance.domain.Crew;
 import attendance.domain.PunishmentStatus;
+import java.util.List;
 
 public class OutputView {
 
@@ -47,7 +49,7 @@ public class OutputView {
     }
 
     public void printAttendanceLogs(String name, AttendanceLogs attendanceLogs) {
-        System.out.println("\n이번 달 빙티의 출석 기록입니다.\n");
+        System.out.println("\n이번 달 " + name + "의 출석 기록입니다.\n");
         for (String attendance : attendanceLogs.attendances()) {
             System.out.println(attendance);
         }
@@ -62,5 +64,16 @@ public class OutputView {
             return;
         }
         System.out.println(attendanceLogs.punishmentStatus().getStatusAsString() + "\n");
+    }
+
+    public void printPunishmentCrews(List<Crew> punishmentCrews) {
+        System.out.println("\n제적 위험자 조회 결과");
+        for (Crew crew : punishmentCrews) {
+            System.out.println("- " + crew.getName() + ": "
+                    + "결석 " + crew.getAbsenceCount() + "회, "
+                    + "지각 " + crew.getLatenessCount() + "회 "
+                    + crew.getPunishmentStatus().getValueAsString());
+        }
+        System.out.println();
     }
 }

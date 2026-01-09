@@ -44,6 +44,10 @@ public class AttendanceController {
                 showCrewAttendances(wooteco);
             }
 
+            if (Command.FIND_PUNISHMENT_CREWS.equals(command)) {
+                showPunishmentCrews(wooteco);
+            }
+
             if (Command.QUIT.equals(command)) {
                 break;
             }
@@ -87,6 +91,10 @@ public class AttendanceController {
         Crew crew = getCrewForCheck(wooteco);
         AttendanceLogs attendanceLogs = wooteco.showPreviousAttendances(crew);
         outputView.printAttendanceLogs(crew.getName(), attendanceLogs);
+    }
+
+    private void showPunishmentCrews(Academy wooteco) {
+        outputView.printPunishmentCrews(wooteco.getPunishmentCrews());
     }
 
     private LocalTime getModifyTime() {
